@@ -8,7 +8,6 @@ use App\Enums\User\UserType;
 use App\Models\User;
 use App\Models\UserSubscription\Plan;
 use App\Models\UserSubscription\Subscription;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SubscriptionSeeder extends Seeder
@@ -22,14 +21,14 @@ class SubscriptionSeeder extends Seeder
         $users = [
             User::create([
                 'name' => 'User A',
-                'email' => 'usera@example.com',
+                'email' => 'heshamatef050@gmail.com',
                 'password' =>'mans123456',
                 'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
                 'is_active' => UserStatus::ACTIVE, // Assuming is_active is a field in User model
             ]),
             User::create([
                 'name' => 'User B',
-                'email' => 'userb@example.com',
+                'email' => 'mr10dev10@gmail.com',
                 'password' =>'mans123456',
                 'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
                 'is_active' => UserStatus::ACTIVE
@@ -53,7 +52,7 @@ class SubscriptionSeeder extends Seeder
         // Assign subscriptions
         Subscription::create([
             'user_id' => $users[0]->id,
-            'plan_id' => $plans['free']->id,
+            'plan_id' => $plans['premium']->id,
             'status' => SubcriptionStatus::ACTIVE,
             'starts_at' => now(),
             'ends_at' => null, // Lifetime plan
@@ -62,10 +61,10 @@ class SubscriptionSeeder extends Seeder
 
         Subscription::create([
             'user_id' => $users[1]->id,
-            'plan_id' => $plans['pro']->id,
+            'plan_id' => $plans['premium']->id,
             'status' => SubcriptionStatus::ACTIVE,
             'starts_at' => now(),
-            'ends_at' => now()->addMonth(), // Monthly plan
+            'ends_at' => null, // Monthly plan
             'suspended_at' => null,
         ]);
 
@@ -75,7 +74,7 @@ class SubscriptionSeeder extends Seeder
             'plan_id' => $plans['premium']->id,
             'status' => SubcriptionStatus::ACTIVE,
             'starts_at' => now(),
-            'ends_at' => now()->addMonth(), // Monthly plan
+            'ends_at' => null, // Monthly plan
             'suspended_at' => null,
         ]);
 
