@@ -24,9 +24,22 @@ class WorkspaceMemberService
     {
         $workspace = Workspace::find($data['workspaceId']);
 
+
         foreach ($data['members'] as $key => $member) {
-            $workspace->members()->attach($member['memberId'], ['role_id' => $member['roleId']]);
+
+            $roleId  = $member['isAdmin'] == true ? 1 : 2;
+
+            $workspace->members()->attach($member['memberId'], ['role_id' => $roleId]);
         }
+    }
+
+    public function changeWorkspaceMemberRole($memberId, array $data)
+    {
+        $workspaceUser = WorkspaceUser::where('workspace_id', $data['workspaceId'])->where('user_id', $memberId)->first();
+
+        $workspaceUser->role_id = $data['isAdmin'] == true ? 1 : 2;
+
+        $workspaceUser->save();
     }
 
     public function removeWorkspaceMember(int $id, int $workspaceId)

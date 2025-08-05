@@ -20,11 +20,15 @@ class AllPostResource extends JsonResource
             'postId' => $this->id,
             'content' => $this->content,
             'createdAt' => Carbon::parse($this->created_at)->diffForHumans(), // Fully localized
-            'workspaceName' => $this->workspace_name,
-            'memberName' => $this->user_name,
-            'memberAvatar' => $this->avatar??"",
             'isEditable' => $this->created_by == auth()->user()->id,
-            'totalComments' => $this->comment_count
+            'totalComments' => $this->comment_count,
+            'workspace' => [
+                'name' => $this->workspace_name
+            ],
+            'creator' => [
+                'name' => $this->user_name,
+                'avatar' => $this->avatar??"",
+            ]
        ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Services\UserSubscription;
 
+use App\Enums\SubcriptionPlan\PlanBillingCycle;
+use App\Enums\SubcriptionPlan\SubcriptionStatus;
 use App\Models\User;
 use App\Models\UserSubscription\Plan;
 use App\Models\UserSubscription\Subscription;
@@ -21,7 +23,7 @@ class SubscriptionService
     public function subscribe(User $user, Plan $plan, array $options = []): Subscription
     {
          if ($currentSubscription = $user->subscription) {
-                $this->cancel($currentSubscription, 'Upgraded to new plan');
+                $this->cancel($currentSubscription);
             }
 
             $subscription = $this->createSubscription($user, $plan, $options);
@@ -195,7 +197,7 @@ class SubscriptionService
     private function createSubscription(User $user, Plan $plan, array $options = []): Subscription
     {
         $defaultOptions = [
-            'status' => 'active',
+            'status' => SubcriptionStatus::ACTIVE->value,
             'starts_at' => now(),
             'ends_at' => $this->calculateEndDate($plan),
         ];
@@ -211,9 +213,9 @@ class SubscriptionService
     private function calculateEndDate(Plan $plan): ?\Carbon\Carbon
     {
         return match($plan->billing_cycle) {
-            'monthly' => now()->addMonth(),
-            'yearly' => now()->addYear(),
-            'lifetime' => null,
+            PlanBillingCycle::MONTHLY => now()->addMonth(),
+            PlanBillingCycle::YEARLY => now()->addYear(),
+            PlanBillingCycle::LIFETIME => null,
             default => now()->addMonth(),
         };
     }

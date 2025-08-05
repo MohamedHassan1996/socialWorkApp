@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\V1\Auth\AuthRegisterController;
 use App\Http\Controllers\Api\V1\Auth\ForgetPasswordOtpController;
 use App\Http\Controllers\Api\V1\Otp\OtpController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
+use App\Http\Controllers\Api\V1\Workspace\ChangeWorkspcaeMemberRoleController;
+use App\Http\Controllers\Api\V1\Workspace\PostCommentController;
 use App\Http\Controllers\Api\V1\Workspace\PostController;
 use App\Http\Controllers\Api\V1\Workspace\WorkspaceAttributeController;
 use App\Http\Controllers\Api\V1\Workspace\WorkspaceController;
@@ -38,6 +40,18 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
         Route::put('{workspace}/update-path', [WorkspaceAttributeController::class, 'updatePath']);
     });
 
+
+
+    Route::prefix('workspace-members')->group(function () {
+        Route::get('', [WorkspaceMemberController::class, 'index']);
+        Route::post('add-member', [WorkspaceMemberController::class, 'addMember']);
+        Route::delete('{workspaceMember}', [WorkspaceMemberController::class, 'destroy']);
+    });
+
+    Route::prefix('workspace-members')->group(function () {
+        Route::put('{workspaceMember}/change-role', [ChangeWorkspcaeMemberRoleController::class, 'changeRole']);
+    });
+
     Route::prefix('posts')->group(function () {
         Route::get('', [PostController::class, 'index']);
         Route::post('', [PostController::class, 'store']);
@@ -45,10 +59,11 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
         Route::put('{post}', [PostController::class, 'update']);
     });
 
-    Route::prefix('workspace-members')->group(function () {
-        Route::get('', [WorkspaceMemberController::class, 'index']);
-        Route::post('add-member', [WorkspaceMemberController::class, 'addMember']);
-        Route::delete('{workspaceMember}', [WorkspaceMemberController::class, 'destroy']);
+    Route::prefix('post-comments')->group(function () {
+        Route::get('', [PostCommentController::class, 'index']);
+        // Route::post('', [PostController::class, 'store']);
+        // Route::get('{post}', [PostController::class, 'show']);
+        // Route::put('{post}', [PostController::class, 'update']);
     });
 
 

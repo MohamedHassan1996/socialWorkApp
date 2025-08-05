@@ -56,7 +56,7 @@ class ForgetPasswordOtpController extends Controller
             $this->otpService->delete($data['email'], $data['otp'], OtpType::FORGET_PASSWORD, OtpDeliveryMethod::EMAIL);
 
 
-            return ApiResponse::success([], __('password.changed'), HttpStatusCode::OK);
+            return ApiResponse::success([], __('passwords.changed'), HttpStatusCode::OK);
 
         }  catch (OtpException $e) {
             return ApiResponse::error($e->getMessage(), [], HttpStatusCode::UNPROCESSABLE_ENTITY);

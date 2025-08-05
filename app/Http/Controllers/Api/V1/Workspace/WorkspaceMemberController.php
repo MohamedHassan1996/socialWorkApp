@@ -61,15 +61,13 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
 
 
             return ApiResponse::success([
-                'message' => 'Post created successfully',
                 'remainingWorkspaces' => $this->featureAccessService->getRemainingUsage($workspaceCreator, 'workspace_member_limit')
-            ], "");
+            ], __('general.created_successfully'));
 
         } catch (\Exception $e) {
             return ApiResponse::error($e->getMessage(), [], HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
-
     public function destroy(int $workspaceMember, Request $request)
     {
         $workspace = Workspace::find($request->workspaceId);

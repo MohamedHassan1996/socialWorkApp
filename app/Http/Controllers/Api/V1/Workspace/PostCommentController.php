@@ -10,21 +10,21 @@ use App\Http\Resources\V1\Workspace\Post\AllPostCollection;
 use App\Http\Resources\V1\Workspace\Post\PostResource;
 use App\Services\Authorization\AuthorizationService;
 use App\Services\UserSubscription\FeatureAccessService;
-use App\Services\Workspace\PostService;
+use App\Services\Workspace\PostCommentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PostCommentController extends Controller
 {
     public function __construct(
-        private PostService $postService,
+        private PostCommentService $postCommentService,
         private FeatureAccessService $featureAccessService,
         private AuthorizationService $authService
     ) {}
 
     public function index(Request $request)
     {
-        $posts = $this->postService->allPosts($request->all());
+        $posts = $this->postCommentService->allPostComments($request->all());
 
         return ApiResponse::success(new AllPostCollection($posts));
 

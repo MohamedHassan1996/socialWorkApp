@@ -58,12 +58,14 @@ class PostService
         $post = Post::create([
             'content' => $data['content'],
             'workspace_id' => $data['workspaceId'],
-            'created_by' => auth()->id(),
         ]);
+
 
         $post->members()->attach($post->workspace->members()->pluck('user_id')->toArray());
 
-        foreach ($data['attachments'] as $file) {
+        $attachments = $data['attachments'] ?? [];
+
+        foreach ($attachments as $file) {
             $path = $this->uploadService->uploadFile($file, 'posts/' . $post->id);
 
             PostAttachment::create([

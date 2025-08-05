@@ -4,7 +4,6 @@ namespace App\Services\Workspace;
 
 use App\Models\Workspace\Comment;
 use App\Models\Workspace\Post;
-use App\Models\Workspace\PostAttachment;
 use App\Services\Upload\UploadService;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Support\Facades\DB;
@@ -15,43 +14,22 @@ class PostCommentService
 
     public function __construct(private FeatureAccessService $featureAccessService, private UploadService $uploadService){}
 
-    public function allPosts(array $data): CursorPaginator
+    public function allPostComments(array $data): CursorPaginator
     {
-        $searchFilter = $data['filter']['search'] ?? null;
-        $membersFilter = $data['filter']['members'] ? explode(',', $data['filter']['members']) : null;
-        $workspaceFilter = $data['filter']['workspaces'] ? explode(',', $data['filter']['workspaces']) : null;
         $perPage = $data['pageSize'] ?? 10;
 
-        // First, get workspace IDs that the current user belongs to
-        $userPostIds = DB::table('user_posts')
-            ->where('user_id', auth()->id())
-            ->pluck('post_id');
-
         // Build the main query
-        $query = DB::table('posts')
-            ->join('workspaces', 'posts.workspace_id', '=', 'workspaces.id')
-            ->join('users', 'posts.created_by', '=', 'users.id')
-            ->select('posts.*', 'workspaces.name as workspace_name', 'users.name as user_name', 'users.avatar',
-            DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as comment_count'))
-            ->whereIn('posts.id', $userPostIds)
-            ->when($searchFilter, fn ($query) => $query->where('posts.content', 'like', '%' . $searchFilter . '%'))
-            ->when($workspaceFilter, fn ($query) => $query->whereIn('posts.id', $workspaceFilter));
+        $query = DB::table('comments')
+            ->join('users', 'comments.created_by', '=', 'users.id')
+            ->select('comments.*', 'users.name as user_name', 'users.avatar',
+            DB::raw("'(SELECT COUNT(*) FROM comments WHERE comments.post_id = ".$data['postId'].") as comment_count'"))
+            ->where('comments.id', $data['postId']);
 
-        // Apply members filter using a subquery approach
-        if ($membersFilter) {
-            $query->whereExists(function ($subquery) use ($membersFilter) {
-                $subquery->select(DB::raw(1))
-                    ->from('user_posts')
-                    ->whereColumn('user_posts.post_id', 'posts.id')
-                    ->whereIn('user_posts.user_id', $membersFilter);
-            });
-        }
-
-        $posts = $query->orderBy('posts.created_at', 'desc')
-            ->orderBy('posts.updated_at', 'desc')
+        $comments = $query->orderBy('comments.created_at', 'desc')
+            ->orderBy('comments.updated_at', 'desc')
             ->cursorPaginate($perPage);
 
-        return $posts;
+        return $comments;
     }
 
     public function createPostComment(array $data): Comment

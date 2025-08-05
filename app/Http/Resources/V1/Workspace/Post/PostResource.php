@@ -25,7 +25,7 @@ class PostResource extends JsonResource
                 'name' => $this->workspace->name
             ],
             'creator' => [
-                'memberId' => $this->created_by,
+                'creatorId' => $this->created_by,
                 'name' => $this->creator->name,
                 'avatar' => $this->creator->avatar
             ],
