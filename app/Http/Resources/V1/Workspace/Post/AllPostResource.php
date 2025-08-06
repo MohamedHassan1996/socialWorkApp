@@ -20,7 +20,12 @@ class AllPostResource extends JsonResource
             'postId' => $this->id,
             'content' => $this->content,
             'createdAt' => Carbon::parse($this->created_at)->diffForHumans(), // Fully localized
-            'isEditable' => $this->created_by == auth()->user()->id,
+            'postPermissions' => [
+                [
+                    'permissionName' => 'update_post',
+                    'permissionAccess' => $this->created_by == auth()->user()->id
+                ]
+            ],
             'totalComments' => $this->comment_count,
             'workspace' => [
                 'name' => $this->workspace_name

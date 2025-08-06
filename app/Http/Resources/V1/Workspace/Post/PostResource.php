@@ -19,7 +19,12 @@ class PostResource extends JsonResource
         return [
             'postId' => $this->id,
             'content' => $this->content,
-            'isEditable' => $this->created_by == auth()->user()->id,
+            'postPermissions' => [
+                [
+                    'permissionName' => 'update_post',
+                    'permissionAccess' => $this->created_by == auth()->user()->id
+                ]
+            ],
             'workspace' => [
                 'workspaceId' => $this->workspace_id,
                 'name' => $this->workspace->name
