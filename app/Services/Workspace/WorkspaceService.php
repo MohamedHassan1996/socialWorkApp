@@ -16,7 +16,7 @@ class WorkspaceService
     public function allWorkspaces(array $data): CursorPaginator
     {
         $nameFilter = $data['filter']['search'] ?? null;
-        $membersFilter = $data['filter']['members'] ? explode(',', $data['filter']['members']) : null;
+        $membersFilter = isset($data['filter']['members'])? explode(',', $data['filter']['members']) : null;
         $perPage = $data['pageSize'] ?? 10;
 
         // First, get workspace IDs that the current user belongs to
