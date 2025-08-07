@@ -28,9 +28,11 @@ class AllPostResource extends JsonResource
             ],
             'totalComments' => $this->comment_count,
             'workspace' => [
+                'workspaceId' => $this->workspace_id,
                 'name' => $this->workspace_name
             ],
             'creator' => [
+                'creatorId' => $this->user_id,
                 'name' => $this->user_name,
                 'avatar' => $this->avatar??"",
             ]
