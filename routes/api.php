@@ -61,7 +61,7 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
 
     Route::prefix('post-comments')->group(function () {
         Route::get('', [PostCommentController::class, 'index']);
-        // Route::post('', [PostController::class, 'store']);
+        Route::post('', [PostCommentController::class, 'store']);
         // Route::get('{post}', [PostController::class, 'show']);
         // Route::put('{post}', [PostController::class, 'update']);
     });

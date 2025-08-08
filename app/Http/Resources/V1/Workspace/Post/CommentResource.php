@@ -20,7 +20,7 @@ class CommentResource extends JsonResource
             'commentId' => $this->id,
             'content' => $this->content,
             'creator' => [
-                'memberId' => $this->created_by,
+                'creatorId' => $this->created_by,
                 'name' => $this->creator->name,
                 'avatar' => $this->creator->avatar
             ],
