@@ -12,7 +12,7 @@ class UserSelectService
         return User::all(['id as value', 'name as label']);
     }
 
-    public function getAllRelatedPersons(?int $workspaceId){
+    public function getAllRelatedPersons(?int $workspaceId = null){
 
         $auth = auth()->user();
 

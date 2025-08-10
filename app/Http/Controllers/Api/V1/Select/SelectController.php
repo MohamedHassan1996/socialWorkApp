@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Select;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Select\SelectService;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class SelectController extends Controller
     {
         $selectData = $this->selectService->getSelects($request->allSelects);
 
-        return response()->json($selectData);
+        return ApiResponse::success($selectData);
     }
 
 
