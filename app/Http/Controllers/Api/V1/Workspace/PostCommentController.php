@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api\V1\Workspace;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\Workspace\Post\CreatePostCommentRequest;
 use App\Http\Requests\V1\Workspace\Post\CreatePostRequest;
+use App\Http\Requests\V1\Workspace\Post\UpdatePostCommentRequest;
 use App\Http\Requests\V1\Workspace\Post\updatePostRequest;
 use App\Http\Resources\V1\Workspace\Post\AllPostCollection;
 use App\Http\Resources\V1\Workspace\Post\PostResource;
@@ -30,14 +32,14 @@ class PostCommentController extends Controller
 
     }
 
-    public function store(CreatePostRequest $createPostRequest)
+    public function store(CreatePostCommentRequest $createPostCommentRequest)
     {
         try {
             DB::beginTransaction();
 
-            $data = $createPostRequest->validated();
+            $data = $createPostCommentRequest->validated();
 
-            $post = $this->postService->createPost($data);
+            $this->postCommentService->createPostComment($data);
 
             DB::commit();
 
@@ -48,21 +50,21 @@ class PostCommentController extends Controller
         }
     }
 
-    public function show($post)
-    {
-        $post = $this->postService->editPost($post);
+    // public function show($post)
+    // {
+    //     $post = $this->postService->editPost($post);
 
-        return ApiResponse::success(new PostResource($post));
-    }
+    //     return ApiResponse::success(new PostResource($post));
+    // }
 
-    public function update(updatePostRequest $updatePostRequest, $post)
+    public function update(UpdatePostCommentRequest $updatePostCommentRequest, $postComment)
     {
         try {
             DB::beginTransaction();
 
-            $data = $updatePostRequest->validated();
+            $data = $updatePostCommentRequest->validated();
 
-            $post = $this->postService->updatePost($post, $data);
+            $post = $this->postCommentService->updatePostComment($postComment, $data);
 
             DB::commit();
 
@@ -73,12 +75,12 @@ class PostCommentController extends Controller
         }
     }
 
-    public function destroy($post)
+    public function destroy($postComment)
     {
         try {
             DB::beginTransaction();
 
-            $this->postService->destroyPost($post);
+            $this->postCommentService->destroyPostComment($postComment);
 
             DB::commit();
 

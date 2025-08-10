@@ -52,22 +52,22 @@ class PostCommentService
 
     }
 
-    public function updatePost($id, array $data): Post
+    public function updatePostComment($id, array $data): Comment
     {
-        $post = Post::findOrFail($id);
+        $postComment = Comment::findOrFail($id);
 
-        $post->update([
+        $postComment->update([
             'content' => $data['content']
         ]);
 
-        return $post;
+        return $postComment;
     }
 
-    public function destroyPost($id)
+    public function destroyPostComment($id)
     {
-        $post = Post::findOrFail($id);
+        $postComment = Comment::findOrFail($id);
 
-        $post->delete();
+        $postComment->delete();
 
     }
 

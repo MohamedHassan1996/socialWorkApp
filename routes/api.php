@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthLogoutController;
 use App\Http\Controllers\Api\V1\Auth\AuthRegisterController;
 use App\Http\Controllers\Api\V1\Auth\ForgetPasswordOtpController;
 use App\Http\Controllers\Api\V1\Otp\OtpController;
+use App\Http\Controllers\Api\V1\Select\SelectController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\Workspace\ChangeWorkspcaeMemberRoleController;
 use App\Http\Controllers\Api\V1\Workspace\PostCommentController;
@@ -62,8 +63,8 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
     Route::prefix('post-comments')->group(function () {
         Route::get('', [PostCommentController::class, 'index']);
         Route::post('', [PostCommentController::class, 'store']);
-        // Route::get('{post}', [PostController::class, 'show']);
-        // Route::put('{post}', [PostController::class, 'update']);
+        Route::put('{postComment}', [PostController::class, 'update']);
+        Route::delete('{postComment}', [PostCommentController::class, 'destroy']);
     });
 
 
@@ -72,4 +73,11 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
     Route::post('/subscription/resume', [SubscriptionController::class, 'resume']);
     Route::get('/subscription/status', [SubscriptionController::class, 'status']);
     Route::get('/subscription/feature/{featureKey}', [SubscriptionController::class, 'featureUsage']);
+
+    Route::prefix('selects')->group(function(){
+        Route::get('', [SelectController::class, 'getSelects']);
+    });
+
+
+
 });
