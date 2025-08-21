@@ -77,7 +77,7 @@ class WorkspaceService
         ]);
 
         // Include the creator (auth user) in the members list if not already
-        $memberIds = $data['membersIds'] ?? [];
+        $memberIds = $data['members'] ?? [];
 
         // Get authenticated user
         $authUser = auth()->user();
@@ -96,7 +96,7 @@ class WorkspaceService
 
         // Attach each member with member role
         foreach ($memberIds as $memberId) {
-            $workspace->members()->attach($memberId, ['role_id' => $memberRoleId]);
+            $workspace->members()->attach($memberId['memberId'], ['role_id' => $memberId['isAdmin'] ? $adminRoleId : $memberRoleId]);
 
             $this->featureAccessService->recordUsage($authUser, 'workspace_member_limit', 'workspace', $workspace->id);
 

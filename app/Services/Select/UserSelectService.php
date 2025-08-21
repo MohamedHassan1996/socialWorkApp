@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class UserSelectService
 {
+
+    public function getAllUsers()
+    {
+        return User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
+    }
     public function getAllPersons()
     {
         return User::all(['id as value', 'name as label']);

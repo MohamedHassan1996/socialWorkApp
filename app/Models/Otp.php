@@ -7,7 +7,6 @@ use App\Enums\Otp\OtpType;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 class Otp extends Model
 {
     use CreatedUpdatedBy;

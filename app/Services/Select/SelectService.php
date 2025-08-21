@@ -52,6 +52,7 @@ class SelectService
     private function resolveSelectService($select)
     {
         $selectServiceMap = [
+            'users' => ['getAllUsers', UserSelectService::class],
             'persons' => ['getAllPersons', UserSelectService::class],
             'relatedPersons' => ['getAllRelatedPersons', UserSelectService::class],
             'relatedWorkspaces' => ['getAllRelatedWorkspaces', WorkspaceSelectService::class],
