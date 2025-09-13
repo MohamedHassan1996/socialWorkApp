@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthLoginController;
 use App\Http\Controllers\Api\V1\Auth\AuthLogoutController;
 use App\Http\Controllers\Api\V1\Auth\AuthRegisterController;
 use App\Http\Controllers\Api\V1\Auth\ForgetPasswordOtpController;
+use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Otp\OtpController;
 use App\Http\Controllers\Api\V1\Select\SelectController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
@@ -26,6 +27,10 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
     Route::prefix('auth/otp-forget-password')->group(function () {
         Route::post('', [ForgetPasswordOtpController::class, 'store']);
         Route::put('', [ForgetPasswordOtpController::class, 'update']);
+    });
+
+    Route::prefix('auth/change-password')->group(function () {
+        Route::put('', [ResetPasswordController::class, 'update']);
     });
 
     Route::prefix('otp')->group(function () {
