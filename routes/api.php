@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthLoginController;
 use App\Http\Controllers\Api\V1\Auth\AuthLogoutController;
 use App\Http\Controllers\Api\V1\Auth\AuthRegisterController;
 use App\Http\Controllers\Api\V1\Auth\ForgetPasswordOtpController;
+use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\V1\Otp\OtpController;
 use App\Http\Controllers\Api\V1\Select\SelectController;
@@ -31,6 +32,12 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
 
     Route::prefix('auth/change-password')->group(function () {
         Route::put('', [ResetPasswordController::class, 'update']);
+    });
+
+    Route::prefix('profile')->group(function () {
+        Route::get('', [ProfileController::class, 'show']);
+        Route::put('update-name', [ProfileController::class, 'updateName']);
+        Route::put('update-avatar', [ProfileController::class, 'updateAvatar']);
     });
 
     Route::prefix('otp')->group(function () {
