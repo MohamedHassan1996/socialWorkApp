@@ -16,6 +16,28 @@ class Post extends Model
         'workspace_id'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($post) {
+            // Delete associated attachments
+            $post->attachments()->each(function ($attachment) {
+                // Assuming you have a method to delete the file from storage
+                // $this->uploadService->deleteFile($attachment->file_path);
+                $attachment->delete();
+            });
+
+            // Delete associated comments
+            $post->comments()->each(function ($comment) {
+                $comment->delete();
+            });
+
+            // Detach all members
+            $post->members()->detach();
+        });
+    }
+
     public function workspace(): BelongsTo
     {
         return $this->belongsTo(Workspace::class);
@@ -50,5 +72,6 @@ class Post extends Model
     {
         return $this->attachments()->count();
     }
+
 
 }
