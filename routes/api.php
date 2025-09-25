@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthRegisterController;
 use App\Http\Controllers\Api\V1\Auth\ForgetPasswordOtpController;
 use App\Http\Controllers\Api\V1\Auth\ProfileController;
 use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\Otp\OtpController;
 use App\Http\Controllers\Api\V1\Select\SelectController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
@@ -91,6 +92,12 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
         Route::get('', [SelectController::class, 'getSelects']);
     });
 
+
+    Route::prefix('notifications')->group(function () {
+        Route::get('', [NotificationController::class, 'index']);
+        Route::put('mark-read', [NotificationController::class, 'markRead']);
+        Route::get('unread-count', [NotificationController::class, 'unreadCount']);
+    });
 
 
 });

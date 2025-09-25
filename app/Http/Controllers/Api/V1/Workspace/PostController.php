@@ -39,6 +39,7 @@ class PostController extends Controller
 
             $post = $this->postService->createPost($data);
 
+
             DB::commit();
 
             return ApiResponse::success([], __('general.created_successfully'));

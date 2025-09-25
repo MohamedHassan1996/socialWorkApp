@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1\Workspace;
 use App\Models\Authorization\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Support\Facades\Storage;
 
 class MemberResource extends JsonResource
 {
@@ -25,7 +25,7 @@ class MemberResource extends JsonResource
         return [
             'memberId' => $this->id,
             'name' => $this->name,
-            'avatar' => $this->avatar ?? "",
+            'avatar' => $this->avatar ? Storage::disk('public')->url($this->avatar) :"",
             'isAdmin' => $role && $role == 1
         ];
     }

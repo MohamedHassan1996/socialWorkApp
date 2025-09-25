@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1\Workspace\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use Illuminate\Support\Facades\Storage;
 
 class AllPostResource extends JsonResource
 {
@@ -34,7 +34,7 @@ class AllPostResource extends JsonResource
             'creator' => [
                 'creatorId' => $this->user_id,
                 'name' => $this->user_name,
-                'avatar' => $this->avatar??"",
+                'avatar' => $this->avatar? Storage::disk('public')->url($this->avatar) :"",
             ]
        ];
     }

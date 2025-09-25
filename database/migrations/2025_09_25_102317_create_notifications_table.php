@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('type');
-            $table->string('title');
-            $table->text('message');
-            $table->json('data')->nullable();
-            $table->timestamp('read_at')->nullable();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete(); // who will receive
+            $table->string('type'); // e.g. "user_added", "post_deleted", "comment_added"
+            $table->string('message'); // e.g. "user_added", "post_deleted", "comment_added"
+            $table->json('data')->nullable(); // extra info (post_id, workspace_id, etc.)
+            $table->timestamp('read_at');
             $table->timestamps();
-
-            $table->index(['user_id', 'read_at']);
         });
     }
 

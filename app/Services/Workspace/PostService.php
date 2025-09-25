@@ -2,6 +2,7 @@
 
 namespace App\Services\Workspace;
 
+use App\Models\Notification\Notification;
 use App\Models\Workspace\Post;
 use App\Models\Workspace\PostAttachment;
 use App\Services\Upload\UploadService;
@@ -72,6 +73,20 @@ class PostService
                 'post_id' => $post->id,
                 'path' => $path
             ]);
+        }
+
+        $postMemberIds = $post->members()->pluck('user_id')->toArray();
+
+        foreach ($postMemberIds as $key => $postMemberId) {
+            $notification = new Notification();
+            $notification->user_id = $postMemberId;
+            $notification->type = 'post_created';
+            $notification->message = 'A new post has been created in the workspace "' . $post->workspace->name . '".';
+            $notification->data = [
+                'post_id' => $post->id,
+                'workspace_id' => $post->workspace->id
+            ];
+            $notification->save();
         }
 
         return $post;
