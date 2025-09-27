@@ -99,11 +99,11 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
 
         }
 
-        if($workspaceMember->role_id == 1 && $workspace->user_id == $user->id){
+        // if($workspaceMember->role_id == 1 && $workspace->user_id == $user->id){
 
-            return ApiResponse::error(__('Workspace owner cannot leave the workspace. Please transfer ownership or delete the workspace.'), [], HttpStatusCode::FORBIDDEN);
+        //     return ApiResponse::error(__('Workspace owner cannot leave the workspace. Please transfer ownership or delete the workspace.'), [], HttpStatusCode::FORBIDDEN);
 
-        }
+        // }
 
         $this->workspaceService->destroyWorkspace($workspace->id);
 
