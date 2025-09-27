@@ -124,7 +124,12 @@ class WorkspaceService
     {
         $workspace = Workspace::find($id);
         $workspace->workspaceUsers()->delete();
-        $workspace->posts()->delete(); // If you want to delete related posts as well
+
+        foreach($workspace->posts()->get() as $post){
+            $post->delete();
+        }
+
+       // $workspace->posts()->delete(); // If you want to delete related posts as well
         $workspace->delete();
     }
 
