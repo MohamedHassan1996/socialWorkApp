@@ -10,15 +10,18 @@ use App\Models\Workspace\Workspace;
 use App\Services\Authorization\AuthorizationService;
 use App\Services\UserSubscription\FeatureAccessService;
 use App\Services\Workspace\WorkspaceMemberService;
+use App\Services\Workspace\WorkspaceService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 
 
 class WorkspaceMemberController extends Controller implements HasMiddleware
 {
      public function __construct(
         private WorkspaceMemberService $workspaceMemberService,
+        private WorkspaceService $workspaceService,
         private FeatureAccessService $featureAccessService,
         private AuthorizationService $authService
     ) {}
@@ -75,4 +78,78 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
         return ApiResponse::success([], __('general.deleted_successfully'));
     }
 
+    public function leaveWorkspace(Request $request)
+    {
+        $user = auth()->user();
+        $workspace = Workspace::find($request->workspaceId);
+
+        $workspaceMember = DB::table('workspace_users')
+            ->where('workspace_id', $workspace->id)
+            ->where('user_id', $user->id)
+            ->first();
+
+        // If normal user or admin but not the owner, allow them to leave
+        if ($workspaceMember->role_id != 1 || ($workspace->user_id != $user->id)) {
+
+            dd('teaaaaast');
+
+            $workspaceMember->delete();
+
+            return ApiResponse::success([], __('You have left the workspace successfully.'));
+
+        }
+
+        if($workspaceMember->role_id == 1 && $workspace->user_id == $user->id){
+
+            return ApiResponse::error(__('Workspace owner cannot leave the workspace. Please transfer ownership or delete the workspace.'), [], HttpStatusCode::FORBIDDEN);
+
+        }
+
+        $this->workspaceService->destroyWorkspace($workspace->id);
+
+        return ApiResponse::success([], __('You have left the workspace successfully.'));
+
+        // $workspaceMemberCount = DB::table('workspace_users')
+        //     ->where('workspace_id', $workspace->id)
+        //     ->count();
+
+        // $workspaceAdminCount = DB::table('workspace_users')
+        //     ->where('workspace_id', $workspace->id)
+        //     ->whereNot('user_id', $user->id)
+        //     ->where('role_id', 1)
+        //     ->count();
+
+        // // If the user is the only admin and not the owner, allow them to leave
+        // if($workspaceMemberCount >= 1 && $workspace->user_id != $user->id){
+
+        //     $workspaceMember->delete();
+
+        //     return ApiResponse::success([], __('You have left the workspace successfully.'));
+
+        // }
+
+
+        //  if($workspaceMemberCount > 1 && $workspaceAdminCount == 1){
+        //     $workspace->owner_id = null;
+        //     $workspace->save();
+        // }
+
+        // if
+
+        // if($workspaceMemberCount <= 1 || ($workspaceMemberCount > 1 && $workspaceAdminCount > 1)){
+
+        //     $this->workspaceService->destroyWorkspace($workspace->id);
+
+        //     return ApiResponse::success([], __('You have left the workspace successfully.'));
+
+        // }
+
+
+        // if($workspaceMemberCount > 1 && $workspaceAdminCount == 1){
+        //     $workspace->owner_id = null;
+        //     $workspace->save();
+        // }
+
+
+    }
 }

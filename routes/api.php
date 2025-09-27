@@ -59,6 +59,7 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
     Route::prefix('workspace-members')->group(function () {
         Route::get('', [WorkspaceMemberController::class, 'index']);
         Route::post('add-member', [WorkspaceMemberController::class, 'addMember']);
+        Route::delete('leave-workspace', [WorkspaceMemberController::class, 'leaveWorkspace']);
         Route::delete('{workspaceMember}', [WorkspaceMemberController::class, 'destroy']);
     });
 
