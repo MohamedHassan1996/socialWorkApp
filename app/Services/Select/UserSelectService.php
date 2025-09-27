@@ -4,6 +4,7 @@ namespace App\Services\Select;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserSelectService
 {
@@ -15,7 +16,18 @@ class UserSelectService
 
     public function getAllUsersWithAvatar()
     {
-        return User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
+        $users = User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
+
+        foreach ($users as $user) {
+            if ($user->avatar) {
+                $user->avatar = Storage::disk('public')->url($user->avatar);
+            } else {
+                $user->avatar = ""; // or set a default avatar URL if needed
+            }
+        }
+
+        return $users;
+
     }
     public function getAllPersons()
     {
