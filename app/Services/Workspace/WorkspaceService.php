@@ -123,6 +123,8 @@ class WorkspaceService
     public function destroyWorkspace(int $id)
     {
         $workspace = Workspace::find($id);
+        $workspace->workspaceUsers()->delete();
+        $workspace->posts()->delete(); // If you want to delete related posts as well
         $workspace->delete();
     }
 
