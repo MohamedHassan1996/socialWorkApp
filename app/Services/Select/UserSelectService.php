@@ -12,6 +12,11 @@ class UserSelectService
     {
         return User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
     }
+
+    public function getAllUsersWithAvatar()
+    {
+        return User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
+    }
     public function getAllPersons()
     {
         return User::all(['id as value', 'name as label']);

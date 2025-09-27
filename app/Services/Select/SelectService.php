@@ -26,12 +26,6 @@ class SelectService
                         'label' => explode('=', $select)[0] . "" . explode('=', $select)[1],
                         'options' => $selectService->$method($paramValue)
                     ];
-                }elseif(explode('=', $select)[0] == 'claimTextSelect'){
-
-                    $selectData[] = [
-                        'label' => explode('=', $select)[0] . "" . str_replace(['{', '}'], '', explode('=', $select)[1]),
-                        'options' => $selectService->$method($paramValue)
-                    ];
                 }elseif (isset($paramValue)) {
                     $selectData[] = [
                         'label' => explode("=", $select)[0],
@@ -54,6 +48,7 @@ class SelectService
         $selectServiceMap = [
             'users' => ['getAllUsers', UserSelectService::class],
             'persons' => ['getAllPersons', UserSelectService::class],
+            'personsWithAvatar' => ['getAllUsersWithAvatar', UserSelectService::class],
             'relatedPersons' => ['getAllRelatedPersons', UserSelectService::class],
             'relatedWorkspaces' => ['getAllRelatedWorkspaces', WorkspaceSelectService::class],
         ];

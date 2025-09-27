@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type'); // e.g. "user_added", "post_deleted", "comment_added"
             $table->string('message'); // e.g. "user_added", "post_deleted", "comment_added"
             $table->json('data')->nullable(); // extra info (post_id, workspace_id, etc.)
-            $table->timestamp('read_at');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }
