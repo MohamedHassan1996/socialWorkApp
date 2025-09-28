@@ -98,6 +98,7 @@ Route::middleware(['checkLocale'])->prefix('v1/{locale}')->group(function () {
         Route::get('', [NotificationController::class, 'index']);
         Route::put('mark-read', [NotificationController::class, 'markRead']);
         Route::get('unread-count', [NotificationController::class, 'unreadCount']);
+        Route::delete('', [NotificationController::class, 'destroy']);
     });
 
 

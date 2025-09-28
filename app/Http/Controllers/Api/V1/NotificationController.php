@@ -53,4 +53,15 @@ class NotificationController extends Controller implements HasMiddleware
 
         return ApiResponse::success(['unreadCount' => $count]);
     }
+
+    public function delete(Request $request)
+    {
+        $notifications = Notification::whereIn('id', $request->notifacationIds)->get();
+
+        Notification::whereIn('id', $notifications->pluck('id'))
+        ->delete();
+
+        return ApiResponse::success([], __('general.deleted_successfully'));
+
+    }
 }
