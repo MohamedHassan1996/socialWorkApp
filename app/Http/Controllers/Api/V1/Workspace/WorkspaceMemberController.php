@@ -91,8 +91,6 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
         // If normal user or admin but not the owner, allow them to leave
         if ($workspaceMember->role_id != 1 || ($workspace->user_id != $user->id)) {
 
-            dd('teaaaaast');
-
             $workspaceMember->delete();
 
             return ApiResponse::success([], __('You have left the workspace successfully.'));
