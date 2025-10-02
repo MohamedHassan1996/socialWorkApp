@@ -19,11 +19,10 @@ class UserSelectService
         $users = User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
 
         foreach ($users as $user) {
-            if ($user->avatar) {
-                $user->avatar = Storage::disk('public')->url($user->avatar);
-            } else {
-                $user->avatar = ""; // or set a default avatar URL if needed
+            if (!$user->avatar) {
+                $user->avatar = "";
             }
+
         }
 
         return $users;
