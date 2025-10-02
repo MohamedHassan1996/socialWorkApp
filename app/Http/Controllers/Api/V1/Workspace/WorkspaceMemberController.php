@@ -80,7 +80,10 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
 
     public function leaveWorkspace(Request $request)
     {
-        $user = auth()->user();
+
+        try {
+            DB::beginTransaction();
+            $user = auth()->user();
         $workspace = Workspace::find($request->workspaceId);
 
         $workspaceMember = DB::table('workspace_users')
@@ -93,6 +96,8 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
 
             $workspaceMember->delete();
 
+            DB::commit();
+
             return ApiResponse::success([], __('You have left the workspace successfully.'));
 
         }
@@ -102,6 +107,8 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
         //     return ApiResponse::error(__('Workspace owner cannot leave the workspace. Please transfer ownership or delete the workspace.'), [], HttpStatusCode::FORBIDDEN);
 
         // }
+
+        DB::commit();
 
         $this->workspaceService->destroyWorkspace($workspace->id);
 
@@ -147,6 +154,10 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
         //     $workspace->owner_id = null;
         //     $workspace->save();
         // }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
 
 
     }
