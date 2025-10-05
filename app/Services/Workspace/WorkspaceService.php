@@ -79,8 +79,6 @@ class WorkspaceService
         // Include the creator (auth user) in the members list if not already
         $memberIds = $data['members'] ?? [];
 
-        dd($memberIds);
-
         // Get authenticated user
         $authUser = auth()->user();
 
