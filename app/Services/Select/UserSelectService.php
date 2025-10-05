@@ -59,6 +59,8 @@ class UserSelectService
         foreach ($persons as $person) {
             if (!$person->avatar) {
                 $person->avatar = "";
+            }else{
+                $person->avatar = Storage::disk('public')->url($person->avatar);
             }
 
         }
