@@ -11,12 +11,12 @@ class UserSelectService
 
     public function getAllUsers()
     {
-        return User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
+        return User::whereNot('id', auth()->id())->get(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
     }
 
     public function getAllUsersWithAvatar()
     {
-        $users = User::all(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
+        $users = User::whereNot('id', auth()->id())->get(['id as value', 'name as label', 'email as email', 'avatar as avatar']);
 
         foreach ($users as $user) {
             if (!$user->avatar) {
@@ -30,7 +30,7 @@ class UserSelectService
     }
     public function getAllPersons()
     {
-        return User::all(['id as value', 'name as label']);
+        return User::whereNot('id', auth()->id())->get(['id as value', 'name as label']);
     }
 
     public function getAllRelatedPersons(?int $workspaceId = null){
