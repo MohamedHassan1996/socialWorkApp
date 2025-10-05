@@ -52,9 +52,16 @@ class UserSelectService
             ->join('users as u', 'wu.user_id', '=', 'u.id')
             ->whereIn('wu.workspace_id', $workspaceIds)
             ->where('u.id', '!=', $auth->id) // exclude self
-            ->select('u.id as value', 'u.name as label')
+            ->select('u.id as value', 'u.name as label', 'u.avatar as avatar', 'u.email as email')
             ->distinct()
             ->get();
+
+        foreach ($persons as $person) {
+            if (!$person->avatar) {
+                $person->avatar = "";
+            }
+
+        }
 
         return $persons;
 

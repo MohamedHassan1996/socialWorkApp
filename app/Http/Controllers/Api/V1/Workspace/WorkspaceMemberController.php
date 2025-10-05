@@ -108,9 +108,11 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
 
         // }
 
+                $this->workspaceService->destroyWorkspace($workspace->id);
+
+
         DB::commit();
 
-        $this->workspaceService->destroyWorkspace($workspace->id);
 
         return ApiResponse::success([], __('You have left the workspace successfully.'));
 
