@@ -15,7 +15,7 @@ use App\Services\Workspace\WorkspaceService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-
+use Illuminate\Support\Facades\DB;
 
 class WorkspaceController extends Controller implements HasMiddleware
 {
@@ -42,6 +42,8 @@ class WorkspaceController extends Controller implements HasMiddleware
     {
         try {
 
+            DB::beginTransaction();
+
             $user = auth()->user();
 
             // Check if user can create workspace
@@ -55,12 +57,15 @@ class WorkspaceController extends Controller implements HasMiddleware
 
             $this->featureAccessService->recordUsage($user, 'workspace_limit');
 
+            DB::commit();
+
 
             return ApiResponse::success([
                 'remainingWorkspaces' => $this->featureAccessService->getRemainingUsage($user, 'workspace_limit')
             ], __('general.created_successfully'));
 
         } catch (\Exception $e) {
+            DB::rollBack();
             return ApiResponse::error($e->getMessage(), [], HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }

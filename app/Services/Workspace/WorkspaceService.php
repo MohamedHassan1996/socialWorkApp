@@ -76,14 +76,16 @@ class WorkspaceService
             'user_id' => auth()->id(),
         ]);
 
-        // Include the creator (auth user) in the members list if not already
-        $memberIds = $data['members'] ?? [];
-
         // Get authenticated user
         $authUser = auth()->user();
 
-        // Prevent duplicates
-        $memberIds = array_diff($memberIds, [$authUser->id]);
+
+        $memberIds = collect($data['members'] ?? [])
+            ->reject(fn($member) => $member['memberId'] == auth()->id())
+            ->values()
+            ->toArray();
+
+        dd($memberIds);
 
         // Get role IDs from your roles table (assuming you have a Role model)
         $adminRoleId = Role::where('name', 'admin')->value('id');
