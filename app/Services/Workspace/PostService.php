@@ -22,20 +22,29 @@ class PostService
         $workspaceFilter = $data['filter']['workspaces'] ? explode(',', $data['filter']['workspaces']) : null;
         $perPage = $data['pageSize'] ?? 10;
 
+
         // First, get workspace IDs that the current user belongs to
         $userPostIds = DB::table('user_posts')
             ->where('user_id', auth()->id())
             ->pluck('post_id');
 
+        if($workspaceFilter){
+            $workspacePostIds = DB::table('posts')
+            ->whereIn('workspace_id', $workspaceFilter)
+            ->pluck('id');
+
+            $userPostIds = array_intersect($userPostIds->toArray(), $workspacePostIds->toArray());
+        }
+
+
         // Build the main query
         $query = DB::table('posts')
             ->join('workspaces', 'posts.workspace_id', '=', 'workspaces.id')
             ->join('users', 'posts.created_by', '=', 'users.id')
-            ->select('posts.*', 'workspaces.id as workspace_id', 'workspaces.name as workspace_name', 'users.name as user_name', 'users.avatar', 'users.id as user_id', DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as comment_count')
-)
+            ->select('posts.*', 'workspaces.id as workspace_id', 'workspaces.name as workspace_name', 'users.name as user_name', 'users.avatar', 'users.id as user_id', DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as comment_count'))
             ->whereIn('posts.id', $userPostIds)
             ->when($searchFilter, fn ($query) => $query->where('posts.content', 'like', '%' . $searchFilter . '%'))
-            ->when($workspaceFilter, fn ($query) => $query->whereIn('posts.id', $workspaceFilter));
+            ->when($workspaceFilter, fn ($query) => $query->whereIn('posts.workspace_id', $workspaceFilter));
 
         // Apply members filter using a subquery approach
         if ($membersFilter) {
