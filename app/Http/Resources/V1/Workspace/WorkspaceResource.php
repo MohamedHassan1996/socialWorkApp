@@ -20,6 +20,7 @@ class WorkspaceResource extends JsonResource
             'workspaceId' => $this->id,
             'name' => $this->name,
             'path' => $this->path,
+            'ownerId' => $this->user_id,
             'members' => MemberResource::collection($this->members),
         ];
     }
