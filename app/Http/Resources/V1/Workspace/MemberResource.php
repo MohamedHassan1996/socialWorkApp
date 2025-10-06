@@ -25,7 +25,7 @@ class MemberResource extends JsonResource
         return [
             'memberId' => $this->id,
             'name' => $this->name,
-            'avatar' => $this->avatar ? Storage::disk('public')->url($this->avatar) :"",
+            'avatar' => $this->avatar ? $this->avatar :"",
             'isAdmin' => $role && $role == 1
         ];
     }
