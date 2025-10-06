@@ -85,7 +85,6 @@ class WorkspaceService
             ->values()
             ->toArray();
 
-        dd($memberIds);
 
         // Get role IDs from your roles table (assuming you have a Role model)
         $adminRoleId = Role::where('name', 'admin')->value('id');
