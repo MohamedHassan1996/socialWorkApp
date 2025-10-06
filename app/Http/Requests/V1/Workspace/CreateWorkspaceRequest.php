@@ -36,7 +36,7 @@ class CreateWorkspaceRequest extends FormRequest
                 }),
             ],
             'path' => ['required', 'string'],
-            'membersIds' => ['array']
+            'members' => ['array']
         ];
     }
 
