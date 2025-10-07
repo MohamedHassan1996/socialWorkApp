@@ -106,8 +106,6 @@ class WorkspaceMemberController extends Controller implements HasMiddleware
 
         }
 
-                    dd($workspaceMember);
-
 
         // if($workspaceMember->role_id == 1 && $workspace->user_id == $user->id){
 
