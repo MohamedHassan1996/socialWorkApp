@@ -23,7 +23,7 @@ class PostCommentService
             ->join('users', 'comments.created_by', '=', 'users.id')
             ->select('comments.*', 'users.name as user_name', 'users.avatar',
             DB::raw("'(SELECT COUNT(*) FROM comments WHERE comments.post_id = ".$data['postId'].") as comment_count'"))
-            ->where('comments.id', $data['postId']);
+            ->where('comments.post_id', $data['postId']);
 
         $comments = $query->orderBy('comments.created_at', 'desc')
             ->orderBy('comments.updated_at', 'desc')

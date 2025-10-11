@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1\Workspace\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AllPostCollection extends ResourceCollection
+class AllPostCommentCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -30,7 +30,7 @@ class AllPostCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'posts' => CommentResource::collection(resource: $this->collection),
+            'comments' => AllCommentResource::collection(resource: $this->collection),
             'pagination' => $this->pagination
         ];
     }

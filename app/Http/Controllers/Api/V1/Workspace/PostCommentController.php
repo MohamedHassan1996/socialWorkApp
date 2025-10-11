@@ -9,6 +9,8 @@ use App\Http\Requests\V1\Workspace\Post\CreatePostRequest;
 use App\Http\Requests\V1\Workspace\Post\UpdatePostCommentRequest;
 use App\Http\Requests\V1\Workspace\Post\updatePostRequest;
 use App\Http\Resources\V1\Workspace\Post\AllPostCollection;
+use App\Http\Resources\V1\Workspace\Post\AllPostCommentCollection;
+use App\Http\Resources\V1\Workspace\Post\CommentResource;
 use App\Http\Resources\V1\Workspace\Post\PostResource;
 use App\Services\Authorization\AuthorizationService;
 use App\Services\UserSubscription\FeatureAccessService;
@@ -26,10 +28,17 @@ class PostCommentController extends Controller
 
     public function index(Request $request)
     {
-        $posts = $this->postCommentService->allPostComments($request->all());
+        $comments = $this->postCommentService->allPostComments($request->all());
 
-        return ApiResponse::success(new AllPostCollection($posts));
+        return ApiResponse::success(new AllPostCommentCollection($comments));
 
+    }
+
+    public function show($postComment)
+    {
+        $postComment = $this->postCommentService->editPostComment($postComment);
+
+        return ApiResponse::success(new CommentResource($postComment));
     }
 
     public function store(CreatePostCommentRequest $createPostCommentRequest)
