@@ -30,7 +30,7 @@ class AllPostCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'posts' => CommentResource::collection(resource: $this->collection),
+            'posts' => AllPostResource::collection(resource: $this->collection),
             'pagination' => $this->pagination
         ];
     }
