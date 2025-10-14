@@ -41,7 +41,7 @@ class PostService
         $query = DB::table('posts')
             ->join('workspaces', 'posts.workspace_id', '=', 'workspaces.id')
             ->join('users', 'posts.created_by', '=', 'users.id')
-            ->select('posts.*', 'workspaces.id as workspace_id', 'workspaces.name as workspace_name', 'users.name as user_name', 'users.avatar', 'users.id as user_id', DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as comment_count'))
+            ->select('posts.*', 'workspaces.id as workspace_id', 'workspaces.name as workspace_name', 'workspaces.user_id as workspace_owner_id','users.name as user_name', 'users.avatar', 'users.id as user_id', DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.post_id = posts.id) as comment_count'))
             ->whereIn('posts.id', $userPostIds)
             ->when($searchFilter, fn ($query) => $query->where('posts.content', 'like', '%' . $searchFilter . '%'))
             ->when($workspaceFilter, fn ($query) => $query->whereIn('posts.workspace_id', $workspaceFilter));

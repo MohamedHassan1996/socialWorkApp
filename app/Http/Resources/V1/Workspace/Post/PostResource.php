@@ -27,7 +27,8 @@ class PostResource extends JsonResource
             ],
             'workspace' => [
                 'workspaceId' => $this->workspace_id,
-                'name' => $this->workspace->name
+                'name' => $this->workspace->name,
+                'ownerId' => $this->workspace->user_id
             ],
             'creator' => [
                 'creatorId' => $this->created_by,

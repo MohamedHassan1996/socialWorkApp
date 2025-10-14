@@ -22,6 +22,7 @@ class AllNotificationResource extends JsonResource
            'isRead' => $this->read_at?1:0,
            'data' => $this->data,
            'createdAt' => Carbon::parse($this->created_at)->diffForHumans(),
+           'createdBy' => $this->created_by,
        ];
     }
 }
