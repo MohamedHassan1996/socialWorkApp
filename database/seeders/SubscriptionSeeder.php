@@ -34,8 +34,71 @@ class SubscriptionSeeder extends Seeder
                 'is_active' => UserStatus::ACTIVE
             ]),
             User::create([
-                'name' => 'User C',
-                'email' => 'userc@example.com',
+                'name' => 'User1',
+                'email' => 'user1@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+             User::create([
+                'name' => 'User2',
+                'email' => 'user2@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+             User::create([
+                'name' => 'User3',
+                'email' => 'user3@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+             User::create([
+                'name' => 'User4',
+                'email' => 'user4@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+             User::create([
+                'name' => 'User5',
+                'email' => 'user5@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+             User::create([
+                'name' => 'User6',
+                'email' => 'user6@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+            User::create([
+                'name' => 'User7',
+                'email' => 'user7@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+            User::create([
+                'name' => 'User8',
+                'email' => 'user8@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+            User::create([
+                'name' => 'User9',
+                'email' => 'user9@example.com',
+                'password' =>'mans123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+            User::create([
+                'name' => 'User10',
+                'email' => 'user10@example.com',
                 'password' =>'mans123456',
                 'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
                 'is_active' => UserStatus::ACTIVE
@@ -77,6 +140,88 @@ class SubscriptionSeeder extends Seeder
             'ends_at' => null, // Monthly plan
             'suspended_at' => null,
         ]);
+
+        Subscription::create([
+            'user_id' => $users[3]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[4]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[5]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[6]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[7]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[8]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[9]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[10]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[11]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
 
     }
 }
