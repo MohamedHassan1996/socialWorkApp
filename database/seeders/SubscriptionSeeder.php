@@ -103,6 +103,21 @@ class SubscriptionSeeder extends Seeder
                 'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
                 'is_active' => UserStatus::ACTIVE
             ]),
+             User::create([
+                'name' => 'Umberto Arillotta',
+                'email' => 'u.arillotta@arcaprocessing.com',
+                'password' =>'umberto123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+            User::create([
+                'name' => 'Giorgio Manara',
+                'email' => 'giorgio.manara@ma-estro.com',
+                'password' =>'giorgio123456',
+                'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
+                'is_active' => UserStatus::ACTIVE
+            ]),
+
         ];
 
         // Fetch plans by slug
