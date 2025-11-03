@@ -117,7 +117,6 @@ class SubscriptionSeeder extends Seeder
                 'type' => UserType::CLIENT, // Assuming UserType is an enum similar to UserStatus
                 'is_active' => UserStatus::ACTIVE
             ]),
-
         ];
 
         // Fetch plans by slug
@@ -230,6 +229,24 @@ class SubscriptionSeeder extends Seeder
 
         Subscription::create([
             'user_id' => $users[11]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[12]->id,
+            'plan_id' => $plans['premium']->id,
+            'status' => SubcriptionStatus::ACTIVE,
+            'starts_at' => now(),
+            'ends_at' => null, // Monthly plan
+            'suspended_at' => null,
+        ]);
+
+        Subscription::create([
+            'user_id' => $users[13]->id,
             'plan_id' => $plans['premium']->id,
             'status' => SubcriptionStatus::ACTIVE,
             'starts_at' => now(),
